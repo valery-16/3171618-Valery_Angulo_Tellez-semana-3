@@ -1,73 +1,150 @@
-# React + TypeScript + Vite
+# Proyecto Week 03: Dashboard Veterinaria
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Descripción
 
-Currently, two official plugins are available:
+Este proyecto consiste en la construcción de un dashboard interactivo en React que gestiona datos en tiempo real utilizando el hook `useEffect`.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+El sistema está adaptado al dominio de una veterinaria, permitiendo visualizar información relevante como:
 
-## React Compiler
+* Lista de mascotas o pacientes
+* Estadísticas de atención
+* Indicadores en tiempo real
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Dominio: Veterinaria
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+La aplicación simula el funcionamiento de una clínica veterinaria donde se monitorean:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+* Mascotas registradas
+* Atenciones del día
+* Casos críticos
+* Consultas activas en tiempo real
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Objetivos de Aprendizaje
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Durante el desarrollo de este proyecto se aplicaron los siguientes conceptos:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+* Uso de `useEffect` para fetch de datos
+* Implementación de polling con `setInterval`
+* Manejo de múltiples efectos en un componente
+* Estados de `loading`, `error` y `data`
+* Cancelación de peticiones con `AbortController`
+* Limpieza de efectos para evitar memory leaks
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+## Arquitectura del Proyecto
+
+El proyecto está dividido en los siguientes componentes:
+
+### 1. Dashboard
+
+Componente principal que organiza toda la interfaz.
+
+### 2. ItemList
+
+Muestra la lista de mascotas registradas en la veterinaria.
+
+* Fetch inicial de datos
+* Manejo de loading y errores
+* Uso de AbortController
+
+### 3. StatsCard
+
+Muestra estadísticas clave:
+
+* Total de mascotas
+* Mascotas atendidas hoy
+* Casos críticos
+
+Cada estadística se maneja con un `useEffect` independiente.
+
+### 4. RealTimeIndicator
+
+Indicador en tiempo real que muestra:
+
+* Consultas activas
+* Última actualización
+
+Implementa polling cada 5 segundos.
+
+---
+
+## Tecnologías Utilizadas
+
+* React
+* TypeScript
+* Hooks (`useEffect`, `useState`)
+* Fetch API
+* AbortController
+
+---
+
+
+## Funcionalidades Implementadas
+
+### Fetch de Datos Inicial
+
+Se cargan las mascotas al montar el componente usando `useEffect`.
+
+### Polling en Tiempo Real
+
+El sistema actualiza automáticamente las consultas activas cada 5 segundos.
+
+### Manejo de Estados
+
+Cada componente maneja correctamente:
+
+* Loading
+* Error
+* Datos
+
+### Cleanup de Efectos
+
+Se implementa limpieza para:
+
+* Cancelar peticiones (`AbortController`)
+* Limpiar intervalos (`clearInterval`)
+
+---
+
+## Testing Manual
+
+Se verificaron los siguientes escenarios:
+
+* Carga inicial de datos
+* Actualización automática en tiempo real
+* Manejo de errores
+* Cancelación de peticiones al desmontar
+* Ausencia de memory leaks
+
+---
+
+## Decisiones Técnicas
+
+* Se utilizaron datos mock para simular una API
+* Se separaron responsabilidades por componente
+* Se priorizó claridad y mantenimiento del código
+* Se implementaron múltiples `useEffect` para cumplir con los requisitos
+
+---
+
+## Posibles Mejoras
+
+* Implementar búsqueda de mascotas
+* Agregar botón de recarga manual
+* Mejorar estilos con CSS o Tailwind
+* Notificaciones en tiempo real
+
+---
+
+## Autor
+
+Proyecto desarrollado por: Valery Angulo Tellez
+
+
+
+Este proyecto fue desarrollado como parte de la Week 03, enfocado en el manejo de efectos en React y actualización de datos en tiempo real.
